@@ -1,0 +1,49 @@
+# WebSync configuration.
+#
+# api-key and signing-secret are shared secrets issued by the WebSync
+# website admin. Never share this file or commit it with real values
+# filled in.
+
+websync:
+  enabled: true
+  base-url: "https://your-domain.example"
+  api-key: ""
+  signing-secret: ""
+
+# How often the server heartbeat (status/player-count/version/TPS/ping)
+# is sent to the website. Joins and quits additionally trigger one
+# out-of-band heartbeat (coalesced, ~1s later) so the website's player
+# count doesn't have to wait for the next interval; this value is the
+# steady-state floor and the website's liveness signal.
+heartbeat-interval-seconds: 30
+
+# How often ALL currently-online players are re-synced regardless of
+# events, to repair anything a missed join/quit event or a network blip
+# left stale.
+#
+# This is also the website's proof that a player is still connected: it
+# expires presence that hasn't been refreshed within its own timeout
+# (150s), which is how a crashed server or a stopped plugin stops
+# showing players as online. Keep this well below that timeout — 60s
+# gives 2.5 attempts before anyone is considered gone. Raising it above
+# 150 will make online players flicker offline.
+fallback-sync-interval-seconds: 60
+
+# Player-sync events (join/quit/stat changes) arriving within this
+# window of each other are combined into a single batched request
+# instead of one HTTP call per event.
+batch-window-millis: 2000
+
+http:
+  connect-timeout-seconds: 5
+  read-timeout-seconds: 10
+
+retry:
+  max-attempts: 5
+  # Base delay in seconds; doubles each attempt (1, 2, 4, 8, 16 by default).
+  base-delay-seconds: 1
+  max-delay-seconds: 30
+
+# The server slug this instance reports as, matching ServerStatus.slug
+# on the website (defaults to "main" there too).
+server-slug: "main"

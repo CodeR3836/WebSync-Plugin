@@ -1,0 +1,18 @@
+name: WebSync
+version: '${version}'
+main: com.websync.WebSyncPlugin
+api-version: '1.21'
+softdepend: [Vault]
+author: WebSync
+description: >-
+  Synchronizes real Minecraft server + player data to the server website
+  over authenticated HTTPS (WebSync).
+commands:
+  websync:
+    description: Manage/inspect the WebSync connection.
+    usage: /websync <status|sync|reload>
+    permission: websync.admin
+permissions:
+  websync.admin:
+    description: Allows managing the WebSync plugin.
+    default: op
