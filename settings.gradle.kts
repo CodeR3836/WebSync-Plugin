@@ -1,1 +1,1 @@
-rootProject.name = "synix-websync"
+rootProject.name = "websync"
